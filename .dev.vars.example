@@ -1,0 +1,6 @@
+# Copy to .dev.vars (ignored), fill in server-only values, then restart npm run dev.
+GOOGLE_CLIENT_ID="your-web-application-client-id.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="your-google-oauth-client-secret"
+GOOGLE_REDIRECT_URI="http://localhost:5173/api/google/callback"
+# Generate once: node -e "console.log(require('node:crypto').randomBytes(32).toString('base64'))"
+GOOGLE_TOKEN_ENCRYPTION_KEY="replace-with-a-base64-encoded-32-byte-key"

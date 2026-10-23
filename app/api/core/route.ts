@@ -5,7 +5,7 @@ import { chatGPTSignInPath, getChatGPTUser } from "@/app/chatgpt-auth";
 export const dynamic = "force-dynamic";
 const input = z.object({ message: z.string().trim().min(1).max(3000), requestId: z.string().uuid() });
 export async function GET() {
-  return response({ mode: "workspace_and_chatgpt", workspace: ["Saved agenda, inbox, notes and task lookups", "Confirmed dashboard task creation and completion"], connected: "Use ChatGPT with the Life OS app for live information and connected-app actions. ChatGPT opens separately; no embedded model is configured." });
+  return response({ mode: "workspace_and_chatgpt", workspace: ["Saved agenda, inbox, notes and task lookups", "Confirmed dashboard task creation and completion"], connected: "Use ChatGPT with the V.E.C.T.O.R. app for live information and connected-app actions. ChatGPT opens separately; no embedded model is configured." });
 }
 export async function POST(request: Request) {
   if (!sameOrigin(request)) return response({ error: "Origin rejected." }, 403);

@@ -1,0 +1,66 @@
+{
+  "hash": "0e4831e3",
+  "configHash": "a20d961c",
+  "lockfileHash": "0f59bace",
+  "browserHash": "1cd1881b",
+  "optimized": {
+    "react-dom": {
+      "src": "../../node_modules/react-dom/index.js",
+      "file": "react-dom.js",
+      "fileHash": "c3beb15d",
+      "needsInterop": true
+    },
+    "react-dom/server.edge": {
+      "src": "../../node_modules/react-dom/server.edge.js",
+      "file": "react-dom_server__edge.js",
+      "fileHash": "d2c4f0e2",
+      "needsInterop": true
+    },
+    "react-dom/static.edge": {
+      "src": "../../node_modules/react-dom/static.edge.js",
+      "file": "react-dom_static__edge.js",
+      "fileHash": "7a60670d",
+      "needsInterop": true
+    },
+    "react-server-dom-webpack/client.edge": {
+      "src": "../../node_modules/react-server-dom-webpack/client.edge.js",
+      "file": "react-server-dom-webpack_client__edge.js",
+      "fileHash": "15d11f36",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "611ef47f",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "ef856a7b",
+      "needsInterop": true
+    },
+    "react/jsx-runtime": {
+      "src": "../../node_modules/react/jsx-runtime.js",
+      "file": "react_jsx-runtime.js",
+      "fileHash": "35cbac94",
+      "needsInterop": true
+    },
+    "zod": {
+      "src": "../../node_modules/zod/index.js",
+      "file": "zod.js",
+      "fileHash": "e0fcb669",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-nbk3hphP": {
+      "file": "chunk-nbk3hphP.js",
+      "isDynamicEntry": false
+    },
+    "react-dom-server.edge.development-CpR_u7sr": {
+      "file": "react-dom-server.edge.development-CpR_u7sr.js",
+      "isDynamicEntry": false
+    }
+  }
+}

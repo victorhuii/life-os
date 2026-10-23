@@ -1,0 +1,23 @@
+.l-saved-commands{width:100%;min-width:0;margin-top:14px;text-align:left}
+.l-command-heading{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:7px}
+.l-command-disclosure,.l-command-add{display:flex;align-items:center;gap:5px;font-size:10px!important;padding:4px 0!important;color:var(--muted)!important;min-height:28px}
+.l-command-disclosure>span{white-space:nowrap}
+.l-command-disclosure>small{font-size:9px}
+.l-command-disclosure>svg:last-child{transition:transform .15s}
+.l-command-disclosure[aria-expanded=true]>svg:last-child{transform:rotate(180deg)}
+.l-command-add{color:var(--accent)!important;white-space:nowrap}
+.l-command-list{display:flex;flex-direction:column;gap:5px;max-height:118px;overflow:auto;scrollbar-width:thin;padding-right:2px}
+.l-command-row{display:flex;align-items:center;gap:2px;border:1px solid var(--line);background:var(--surface-hover);border-radius:7px;min-height:36px;padding-right:4px}
+.l-command-run{display:flex;flex:1;min-width:0;align-items:center;justify-content:space-between;gap:6px;text-align:left;padding:9px 8px!important;font-size:11px!important;color:var(--secondary)!important}
+.l-command-run>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.l-command-run>svg{flex-shrink:0;color:var(--muted)}
+.l-command-row:hover{border-color:var(--line-strong)}
+.l-command-icon{display:grid;place-items:center;width:27px;height:29px;flex-shrink:0;padding:0!important;border-radius:4px;color:var(--muted)!important}
+.l-command-icon:hover{background:var(--surface-active)!important;color:var(--secondary)!important}
+.l-command-empty>p{font-size:10px;color:var(--muted);margin:0 0 7px;line-height:1.5}
+.l-command-empty>div{display:flex;gap:5px}
+.l-command-empty button{display:flex;align-items:center;justify-content:space-between;flex:1;gap:5px;text-align:left;font-size:9px!important;color:var(--secondary)!important;padding:8px!important;border:1px solid var(--line)!important;border-radius:6px;line-height:1.5;background:var(--surface-hover)!important}
+.l-command-empty button>svg{flex-shrink:0}
+.l-command-error{font-size:11px;color:var(--warning);line-height:1.6;margin-top:7px}
+.l-command-modal .l-field+.l-field{margin-top:15px}
+@media(max-width:1000px){.l-saved-commands{margin-top:8px}.l-command-list{max-height:100px}}

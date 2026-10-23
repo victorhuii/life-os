@@ -1,0 +1,35 @@
+.l-orb-morph{position:fixed;z-index:80;pointer-events:none;overflow:hidden;transform-origin:0 0;background:radial-gradient(ellipse at 50% 45%,#372719 0,#191410 55%,#15120f 100%);border:1px solid #bd8b5466;box-shadow:0 18px 85px #160e0940,0 0 40px #d59b4a18;will-change:transform,border-radius,opacity}
+.l-orb-morph-core{position:fixed;z-index:81;pointer-events:none;border-radius:50%;transform-origin:center;will-change:transform,opacity;background:radial-gradient(circle,#bd8b491a,transparent 70%);filter:drop-shadow(0 0 15px #ce9e5133)}
+.l-orb-morph-image{display:block;width:100%;height:100%;border-radius:50%;opacity:1;transform-origin:center}
+.l-orb-morph-orbit{position:absolute;inset:7%;border:1px solid transparent;border-top-color:#e7c58a;border-left-color:#ba894966;border-radius:50%;box-shadow:0 0 17px #c99a3d12;pointer-events:none}
+.l-orb-morph-orbit::after{content:"";position:absolute;inset:7%;border:1px solid transparent;border-right-color:#e7c58a99;border-bottom-color:#ba894933;border-radius:50%}
+.l-orb-visual{transition:box-shadow .35s,border-color .35s}
+.l-core-launch:hover .l-orb-visual,.l-core-launch:focus-visible .l-orb-visual{border-color:#b78b58;box-shadow:0 12px 40px #392b2438,0 0 25px #ba814520,inset 0 0 30px #1c1511}
+.l-orb-visual[data-activity=working]{border-color:#d6ac73;box-shadow:0 0 25px #d49b4020,inset 0 0 18px #bb87301a}
+.l-core-focused{color-scheme:dark;--surface:#17130f;--surface-muted:#2b221a;--surface-hover:#231c16;--surface-active:#473423;--text:#efe0cb;--heading:#f5e7d4;--secondary:#ddc8af;--muted:#baa68f;--line:#453426;--line-soft:#2c221a;--line-strong:#8c6945;--accent:#d6a66b;--accent-hover:#e5b985;--accent-soft:#3b2b1d;--on-accent:#251b12;--focus:#e2b47e;--success:#a9be9b;--warning:#e2bd77;--warning-bg:#3b2e1c;--warning-line:#655031;--danger:#e2a697;--danger-bg:#3c2723;--danger-line:#69453a}
+.l-widget-focused>.l-widget-content>.l-core-focused{background:#17130f!important;border-color:#695036;box-shadow:0 14px 45px #27170b14}
+.l-core-focused .l-core-inline{background:radial-gradient(ellipse at 50% 18%,#38271844,transparent 58%),var(--surface)}
+.l-core-focused .l-chat-header{background:#17130f8a;border-color:var(--line-soft)}
+.l-core-inline .l-chat-welcome{padding-top:clamp(15px,4vh,44px)}
+.l-chat-welcome-orb{display:block;width:150px;height:150px;margin:0 auto 23px}
+.l-chat-welcome-orb .l-orb-visual{box-shadow:0 0 55px #b37c2e14,0 0 110px #b37c2e08;border-color:#5c442b}
+.l-core-focused .l-chat-welcome h3{color:var(--heading);font:400 30px/1.25 Georgia,serif}
+.l-core-focused .l-chat-starters button{background:#211a14;border-color:#463323;color:var(--secondary)}
+.l-core-focused .l-chat-starters button:hover{background:#2c2118;border-color:#a47c4f;color:var(--heading)}
+.l-core-focused .l-chat-composer{background:linear-gradient(transparent,#17130f 35%);border-top-color:var(--line-soft)}
+.l-core-focused .l-chat-composer>div{background:#231c15;border-color:#655035;box-shadow:0 5px 25px #00000014}
+.l-core-focused .l-chat-composer textarea{color:var(--heading)}
+.l-core-focused .l-chat-composer textarea::placeholder{color:#b5a18b}
+.l-core-focused .l-chat-text{color:#deccb6}
+.l-core-focused .l-chat-source{background:#211a14;border-color:#443324}
+.l-core-focused .l-chat-task-draft{background:#211a14;border-color:#4b3826}
+.l-core-focused .l-chat-task-draft input,.l-core-focused .l-chat-task-draft select{background:#19140f;color:var(--heading);border-color:#57412d}
+.l-core-focused .l-panel-footer{background:#1d1712}
+.l-chat-thinking .l-thinking-orb{display:block;width:52px;height:52px;flex-shrink:0}
+.l-chat-thinking .l-thinking-copy{display:flex;flex-direction:column;gap:5px}
+.l-chat-thinking .l-thinking-copy>small{color:var(--muted);font-size:10px;font-weight:400}
+.l-core-focused .l-chat-thinking{align-items:center;gap:15px;padding:14px 0;color:var(--secondary)}
+.l-chat-assistant{animation:l-orb-answer .38s ease-out}
+@keyframes l-orb-answer{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@media(max-width:720px){.l-chat-welcome-orb{width:112px;height:112px;margin-bottom:17px}.l-core-focused .l-chat-welcome h3{font-size:26px}.l-core-inline .l-chat-welcome{padding-top:14px}}
+@media(prefers-reduced-motion:reduce){.l-orb-morph,.l-orb-morph-core{display:none}.l-orb-visual{transition:none}.l-chat-assistant{animation:none}}

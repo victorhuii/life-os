@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
+import ts from 'typescript';
+const temp=new URL('../.sites-runtime/summary-tests/',import.meta.url);mkdirSync(temp,{recursive:true});
+for(const name of ['life','canvas','calendar-week','weather','weather-history','summary']){const output=ts.transpileModule(readFileSync(new URL('../lib/'+name+'.ts',import.meta.url),'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText.replace(/from "\.\/(life|canvas|calendar-week|weather)"/g,'from "./$1.mjs"');writeFileSync(new URL(name+'.mjs',temp),output);}
+const {validCheckpoint,summarizeWorkspace,summaryTimeWindow,summarizeTimeWindow}=await import(new URL('summary.mjs',temp));
+const now=Date.parse('2026-10-22T01:00:00Z'),since='2026-10-22T00:00:00Z';
+assert.equal(validCheckpoint('invalid',now),null);assert.equal(validCheckpoint('2026-10-23T00:00:00Z',now),null);assert.equal(validCheckpoint(since,now),since.replace('Z','.000Z'));
+const mail={sender:'Test',summary:'',subject:'Subject',receivedAt:'2026-10-22T00:30:00Z',priority:'normal',url:'https://mail.google.com/',account:'vhui@hackberkeley.org'};
+const event={title:'Meeting',start:'2026-10-22T00:30:00Z',end:'2026-10-22T01:30:00Z',source:'Google Calendar',account:'huiv@berkeley.edu'};
+const assignment={title:'Essay',course:'School',due:'2026-10-21',allDay:true,kind:'assignment'};
+const state={sources:{},tasks:[],emails:[{...mail,id:'new'},{...mail,id:'old',receivedAt:since},{...mail,id:'future',receivedAt:'2026-10-23T00:00:00Z'},{...mail,id:'hidden',hidden:true},{...mail,id:'wrong',account:'other@example.com'}],events:[{...event,id:'ongoing'},{...event,id:'past',end:'2026-10-22T00:00:00Z'},{...event,id:'wrong',account:'victorhui94@gmail.com'}],coursework:{connected:true,status:'synced',items:[{...assignment,id:'due-today'},{...assignment,id:'old',due:'2026-10-20'},{...assignment,id:'event',kind:'event'},{...assignment,id:'later',due:'2026-12-01'}]}};
+const result=summarizeWorkspace(state,since,now);
+assert.deepEqual(result.emails.map(m=>m.id),['new']);assert.deepEqual(result.assignments.map(m=>m.id),['due-today']);assert.deepEqual(result.events.map(m=>m.id),['ongoing']);
+assert.equal(summarizeWorkspace({...state,coursework:undefined,emails:[],events:[]},since,now).assignments.length,0);
+console.log('PASS: previous-check validation, exact new-email cutoff, account isolation, hidden/future exclusion, seven-day deadlines and ongoing Berkeley events.');
+
+const fall=summaryTimeWindow('yesterday',since,Date.parse('2026-11-02T20:00:00Z'));
+assert.equal(fall.start,'2026-11-01T07:00:00.000Z');assert.equal(fall.end,'2026-11-02T08:00:00.000Z');assert.equal((Date.parse(fall.end)-Date.parse(fall.start))/3600000,25);
+const spring=summaryTimeWindow('yesterday',since,Date.parse('2026-03-09T20:00:00Z'));
+assert.equal((Date.parse(spring.end)-Date.parse(spring.start))/3600000,23);
+const yesterday=summaryTimeWindow('yesterday',since,now);
+const historical={...state,emails:[{...mail,id:'start',receivedAt:yesterday.start},{...mail,id:'end',receivedAt:yesterday.end}],coursework:{...state.coursework,items:[{...assignment,id:'yesterday',due:'2026-10-20'},{...assignment,id:'today',due:'2026-10-21'}]}};
+assert.deepEqual(summarizeTimeWindow(historical,'yesterday',since,now).emails.map(m=>m.id),['start']);
+assert.deepEqual(summarizeTimeWindow(historical,'yesterday',since,now).assignments.map(m=>m.id),['yesterday']);
+assert.equal(summaryTimeWindow('today',since,now).start,'2026-10-21T07:00:00.000Z');
+assert.equal(Date.parse(summaryTimeWindow('hour',since,now).start),now-3600000);
+const {parseWeatherHistory}=await import(new URL('weather-history.mjs',temp));
+const history=parseWeatherHistory({hourly:{time:[1792616400],temperature_2m:[65],weather_code:[3]}},'berkeley',new Date(now));
+assert.equal(history.location,'Berkeley');assert.equal(history.hours[0].temperature,65);assert.equal(history.hours[0].code,3);
+assert.throws(()=>parseWeatherHistory({hourly:{time:[1],temperature_2m:[],weather_code:[3]}},'berkeley'));
+console.log('PASS: Pacific Today/Yesterday windows, 23/25-hour DST days, exclusive end boundaries, historical deadlines and validated model-weather parsing.');

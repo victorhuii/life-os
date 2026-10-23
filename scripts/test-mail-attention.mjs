@@ -1,0 +1,34 @@
+import assert from 'node:assert/strict';
+import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
+import ts from 'typescript';
+const tmp=new URL('../.sites-runtime/mail-classifier-tests/',import.meta.url);mkdirSync(tmp,{recursive:true});
+const imports={'@/app/chatgpt-auth':'./auth.mjs','cloudflare:workers':'./env.mjs'};for(const name of ['life','store','mail-learning','mail-lab-state','mail-ensemble']){imports['@/lib/'+name]='./'+name+'.mjs';imports['./'+name]='./'+name+'.mjs';}
+imports['@/lib/mail-attention']='./mail-attention.mjs';imports['./mail-attention']='./mail-attention.mjs';
+for(const [name,file]of Object.entries({'mail-ensemble':'lib/mail-ensemble.ts','mail-attention':'lib/mail-attention.ts',attention:'app/api/mail-attention/route.ts','mail-lab-state':'lib/mail-lab-state.ts',life:'lib/life.ts',store:'lib/store.ts','mail-learning':'lib/mail-learning.ts',route:'app/api/mail-classifier/route.ts',assets:'app/api/mail-model/[...file]/route.ts'}))writeFileSync(new URL(name+'.mjs',tmp),ts.transpileModule(readFileSync(new URL('../'+file,import.meta.url),'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText.replace(/from "([^"]+)"/g,(all,spec)=>imports[spec]?`from "${imports[spec]}"`:all));
+writeFileSync(new URL('auth.mjs',tmp),'export const getChatGPTUser=async()=>globalThis.signedIn?{userId:"owner"}:null;');
+writeFileSync(new URL('env.mjs',tmp),`import{DatabaseSync}from'node:sqlite';export const sqlite=new DatabaseSync(':memory:');sqlite.exec('CREATE TABLE life_records(id TEXT PRIMARY KEY,kind TEXT NOT NULL,payload TEXT NOT NULL,updated_at TEXT NOT NULL)');function statement(sql,args=[]){return{bind:(...values)=>statement(sql,values),first:async()=>sqlite.prepare(sql).get(...args)||null,all:async()=>({results:sqlite.prepare(sql).all(...args)}),run:async()=>({meta:sqlite.prepare(sql).run(...args)})};}export const env={DB:{prepare:sql=>statement(sql),batch:async ops=>{sqlite.exec('BEGIN');try{for(const op of ops)await op.run();sqlite.exec('COMMIT');}catch(error){sqlite.exec('ROLLBACK');throw error;}}}};`);
+const learning=await import(new URL('mail-learning.mjs',tmp)),{sqlite}=await import(new URL('env.mjs',tmp)),route=await import(new URL('route.mjs',tmp)),{state}=await import(new URL('store.mjs',tmp));
+
+const attention=await import(new URL('mail-attention.mjs',tmp)),api=await import(new URL('attention.mjs',tmp));
+const account='victorhui94@gmail.com',berk='huiv@berkeley.edu',stamp=new Date().toISOString();
+const mail={id:'shared',account,sender:'Professor',subject:'Please reply by Friday',summary:'Confirm your project topic.',receivedAt:stamp,priority:'normal',url:'https://mail.google.com/'};
+for(const owner of [account,berk])sqlite.prepare('INSERT INTO life_records VALUES (?,?,?,?)').run('mail:'+owner+':shared','mail',JSON.stringify({...mail,account:owner}),stamp);
+const get=owner=>api.GET(new Request('https://vector.test/api/mail-attention?account='+encodeURIComponent(owner)));
+const payload={account,id:'shared',fingerprint:learning.mailFeatureFingerprint(mail),model:attention.attentionModelTag,scores:[.85,.1,.05]};
+const post=(body,origin='https://vector.test')=>api.POST(new Request('https://vector.test/api/mail-attention',{method:'POST',headers:{Origin:origin},body:JSON.stringify(body)}));
+globalThis.signedIn=false;assert.equal((await get(account)).status,401);assert.equal((await post(payload)).status,403);
+globalThis.signedIn=true;assert.equal((await post(payload,'https://evil.test')).status,403);
+assert.equal((await post({...payload,fingerprint:'stale'})).status,409);assert.equal((await post({...payload,id:'missing'})).status,404);
+assert.equal((await post({...payload,model:'unverified-model'})).status,400);assert.equal((await post({...payload,scores:[-.1,.8,.3]})).status,400);
+assert.equal((await get('unconnected@example.com')).status,400);
+assert.equal((await post(payload)).status,200);
+let saved=(await(await get(account)).json()).records;assert.equal(saved.length,1);assert.equal(saved[0].decision,'attention');assert.equal((await(await get(berk)).json()).records.length,0);
+assert.equal(attention.savedAttention(mail,{[attention.attentionKey(mail)]:saved[0]}).decision,'attention');
+assert.equal(attention.savedAttention({...mail,summary:'Changed'}, {[attention.attentionKey(mail)]:saved[0]}),undefined);
+assert.equal(attention.savedAttention({...mail,account:berk},{[attention.attentionKey(mail)]:saved[0]}),undefined);
+assert.equal((await post({...payload,scores:[.05,.9,.05]})).status,200);saved=(await(await get(account)).json()).records;assert.equal(saved.length,1);assert.equal(saved[0].decision,'information');
+assert.equal((await post({...payload,scores:[.4,.35,.25]})).status,200);assert.equal((await(await get(account)).json()).records[0].decision,'uncertain');
+assert.equal(attention.attentionDecision([.05,.05,.9]),'uncertain');
+assert.equal(attention.attentionDecision([.9,.05,.05],{subject:'Project',summary:'About that thing.'}),'uncertain','Insufficient preview context stays for review');
+assert.ok(!JSON.stringify(await state()).includes('attention-v1'),'Attention records stay out of workspace exports/context');
+sqlite.close();console.log('PASS: pretrained attention decisions/uncertainty, separate persistence, account/text/model isolation, auth/CSRF, stale checks and workspace exclusion.');

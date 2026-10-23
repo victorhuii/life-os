@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { dayKey, overview, safeUrl, taskSchema, type State, type Task } from "./life";
+import { dayKey, eventOnDay, mailAccount, mailboxes, mailboxSource, overview, safeUrl, taskSchema, type State, type Task } from "./life";
 
 export const taskDraftSchema = taskSchema.omit({ id: true, done: true });
 export type TaskDraft = z.infer<typeof taskDraftSchema>;
-export type CoreSource = { kind: "task" | "event" | "email" | "note" | "briefing"; title: string; detail: string; url?: string };
+export type CoreSource = { kind: "task" | "event" | "email" | "note" | "briefing" | "assignment"; title: string; detail: string; url?: string };
 export type CoreAction =
   | { type: "create_task"; requestId: string; draft: TaskDraft }
   | { type: "complete_task"; requestId: string; taskId: string; title: string }
@@ -14,11 +14,10 @@ const dateLabel = (value: string) => new Intl.DateTimeFormat("en-US", { timeZone
 const dayLabel = (day: string) => new Date(`${day}T12:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 function addDays(day: string, days: number) { const date = new Date(`${day}T12:00:00Z`); date.setUTCDate(date.getUTCDate() + days); return date.toISOString().slice(0, 10); }
 function isDay(value: string) { const d = new Date(`${value}T12:00:00Z`); return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === value; }
-function latestSync(state: State) { return Object.values(state.sources).map(s => s.updatedAt).filter((s): s is string => !!s).sort().at(-1); }
 function taskSource(task: Task): CoreSource { return { kind: "task", title: task.title, detail: `${task.category} · ${task.priority} priority${task.due ? ` · Due ${dayLabel(task.due)}` : ""}` }; }
 
 export function connectedPrompt(request: string, siteUrl: string) {
-  return `Help me with Life OS: ${siteUrl}\n\nUse the connected "Victor / Life OS" app for dashboard tasks, notes and saved context. Use my authorized Google Calendar, Gmail or Google Drive only when needed for this request. Use only the Gmail account already selected for Life OS and its primary calendar; do not add other accounts. Check the Life OS context for that account scope. For a midterm or deadline, find the actual date in an authorized calendar, email or course document and identify the source; do not guess. A Google Calendar event is different from a Life OS dashboard task. Ask for missing date/time details when needed before creating an event. Perform only the actions requested below.\n\nMy request:\n${request}`;
+  return `Help me with V.E.C.T.O.R.: ${siteUrl}\n\nUse the connected "V.E.C.T.O.R." app for dashboard tasks, bCourses deadlines, notes and saved context. bCourses feed items show dated assignments and course events, not submission status or grades. Use my authorized Google Calendar, Gmail or Google Drive only when needed for this request. Use only these Gmail inboxes, keeping each account separate: Main (victorhui94@gmail.com), Berk (huiv@berkeley.edu), and Cal Hacks (vhui@hackberkeley.org). Google Calendar is limited to huiv@berkeley.edu only. Verify the active provider profile before reading; never infer mailbox identity from a recipient address. Do not add other accounts without authorization. Check the V.E.C.T.O.R. context for that account scope. For a midterm or deadline, find the actual date in an authorized calendar, email or course document and identify the source; do not guess. A Google Calendar event is different from a V.E.C.T.O.R. dashboard task. Ask for missing date/time details when needed before creating an event. Perform only the actions requested below.\n\nMy request:\n${request}`;
 }
 
 export function answerWorkspace(message: string, state: State, now = new Date(), requestId = crypto.randomUUID()): CoreAnswer {
@@ -31,7 +30,7 @@ export function answerWorkspace(message: string, state: State, now = new Date(),
   // A provider action is never silently substituted with a local dashboard write.
   const externalWrite = /\b(?:add|create|schedule|reschedule|move|delete|cancel|update|book|change)\b/.test(q) && /\b(?:calendar|meeting|appointment|event|google|gmail|email|slack|notion)\b/.test(q);
   if (externalWrite || /\b(?:send|forward|reply to)\b/.test(q) || /\b(?:google drive|syllabus|search online|browse|weather)\b/.test(q)) {
-    return handoff("This needs your connected apps. Continue in ChatGPT to perform the request using the account selected for Life OS. Your request is prepared below; nothing has been changed yet.");
+    return handoff("This action needs the original app or ChatGPT with your connected account. V.E.C.T.O.R. can look up saved information and prepare dashboard tasks here. No external changes were made.");
   }
 
   const create = clean.match(/^(?:(?:can|could|would) you\s+)?(?:please\s+)?(?:add|create|make)\s+(?:(?:a\s+new|a|new|another)\s+)?(?:dashboard\s+)?task\b\s*(?:(?:to|for)\s+|:\s*)?([\s\S]*)$/i)
@@ -48,7 +47,7 @@ export function answerWorkspace(message: string, state: State, now = new Date(),
     const category: TaskDraft["category"] = /\b(?:study|lecture|exam|midterm|homework|assignment|class)\b/i.test(title) ? "School" : /\b(?:portfolio|project|resume|work|client)\b/i.test(title) ? "Work" : "Personal";
     const draft = taskDraftSchema.safeParse({ title, due, category, priority, minutes: 30 });
     if (!draft.success) return { ...base, reply: "Give the task a title between 1 and 240 characters.", sources: [], actions: [] };
-    return { ...base, reply: "Here’s a dashboard task draft. Review it, then choose Add task to save it to Life OS.", sources: [], actions: [{ type: "create_task", requestId, draft: draft.data }] };
+    return { ...base, reply: "Here’s a dashboard task draft. Review it, then choose Add task to save it to V.E.C.T.O.R..", sources: [], actions: [{ type: "create_task", requestId, draft: draft.data }] };
   }
 
   const complete = clean.match(/^(?:please\s+)?(?:mark|complete|finish)\s+(?:the\s+)?(?:task\s+)?["“]?(.+?)["”]?\s*(?:as\s+)?(?:complete|completed|done)?[.!]?$/i);
@@ -61,31 +60,40 @@ export function answerWorkspace(message: string, state: State, now = new Date(),
   }
 
   if (/\b(?:midterm|exam|quiz)\b/.test(q)) {
-    const pattern = /midterm|exam|quiz/i;
-    const events = state.events.filter(e => pattern.test(e.title) && new Date(e.end) >= now).map(e => ({ at: e.start, source: { kind: "event" as const, title: e.title, detail: dateLabel(e.start), ...(e.url ? { url: safeUrl(e.url) } : {}) } }));
-    const tasks = state.tasks.filter(t => !t.done && pattern.test(t.title) && t.due && t.due >= today).map(t => ({ at: `${t.due}T23:59:00Z`, source: taskSource(t) }));
-    const candidates = events.sort((a, b) => a.at.localeCompare(b.at));
-    if (candidates.length) return { ...base, reply: `The next exam-related calendar event in your saved workspace is “${candidates[0].source.title}”. ${candidates[0].source.detail}. This is a saved snapshot; use connected ChatGPT to verify against your course materials.`, sources: candidates.slice(0, 3).map(c => c.source), actions: [{ type: "chatgpt", request: clean }], sourceUpdatedAt: state.sources.calendar?.updatedAt };
-    if (tasks.length) return { ...base, reply: "I found an exam-related task, but its due date does not confirm when your exam takes place. Continue in ChatGPT to check the actual course schedule.", sources: tasks.slice(0, 3).map(t => t.source), actions: [{ type: "chatgpt", request: clean }] };
-    return handoff("I don’t have a midterm date in your saved calendar or tasks. I won’t guess. Continue in ChatGPT to check your primary calendar, relevant email and course files.");
+    const pattern = /\bmidterm\b/.test(q) ? /midterm/i : /\bquiz\b/.test(q) ? /quiz/i : /midterm|exam/i;
+    const events = state.events.filter(e => pattern.test(e.title) && new Date(e.end) >= now).map(e => ({ at: new Date(e.start).getTime(), source: { kind: "event" as const, title: e.title, detail: `${e.source} · ${e.allDay ? dayLabel(dayKey(new Date(e.start))) : dateLabel(e.start)}`, ...(e.url ? { url: safeUrl(e.url) } : {}) }, updatedAt: state.sources.calendar?.updatedAt }));
+    const coursework = (state.coursework?.items || []).filter(item => pattern.test(item.title) && (item.allDay ? item.due >= today : new Date(item.due) >= now)).map(item => ({ at: new Date(item.allDay ? `${item.due}T12:00:00Z` : item.due).getTime(), source: { kind: "assignment" as const, title: item.title, detail: `${item.course || "bCourses"} · ${item.allDay ? dayLabel(item.due) : dateLabel(item.due)}${state.coursework?.status === "error" ? " · Refresh failed; saved copy" : ""}`, ...(item.url ? { url: item.url } : {}) }, updatedAt: state.coursework?.updatedAt }));
+    const candidates = [...events, ...coursework].sort((a, b) => a.at - b.at);
+    if (candidates.length) return { ...base, reply: `The next matching exam-related item in your saved sources is “${candidates[0].source.title}”. ${candidates[0].source.detail}. Check the original course page for the exam instructions and any schedule changes.`, sources: candidates.slice(0, 3).map(c => c.source), actions: [{ type: "chatgpt", request: clean }], sourceUpdatedAt: candidates[0].updatedAt };
+    const tasks = state.tasks.filter(t => !t.done && pattern.test(t.title) && t.due && t.due >= today);
+    if (tasks.length) return { ...base, reply: "I found an exam-related task, but its due date does not confirm when your exam takes place. Continue in ChatGPT to check the actual course schedule.", sources: tasks.slice(0, 3).map(taskSource), actions: [{ type: "chatgpt", request: clean }] };
+    return handoff("I don’t have a matching exam date in your saved calendar, bCourses feed or tasks. I won’t guess. Continue in ChatGPT to check your primary calendar, relevant email and course files.");
+  }
+
+  if (/\b(?:assignments?|homework|coursework|bcourses|canvas|deadlines?|due next|what.?s due)\b/.test(q)) {
+    const coursework = state.coursework;
+    if (!coursework?.connected) return { ...base, reply: "Connect your bCourses Calendar Feed in Connections to see actual course deadlines here. I don’t have your assignments yet. You can also use connected ChatGPT to check authorized course files.", sources: [], actions: [{ type: "chatgpt", request: clean }] };
+    const items = coursework.items.filter(item => item.allDay ? item.due >= today : new Date(item.due) >= now).sort((a, b) => a.due.localeCompare(b.due)).slice(0, 6);
+    return { ...base, reply: items.length ? `Here are your next saved bCourses deadlines and course events.${coursework.status === "error" ? " The latest refresh failed, so these may have changed." : ""} The feed does not include grades or submission status.` : "There are no upcoming dated items in your saved bCourses feed. Undated assignments and Canvas To Do items aren’t included; check bCourses for the full list.", sources: items.map(item => ({ kind: "assignment", title: item.title, detail: `${item.course || "bCourses"} · ${item.allDay ? dayLabel(item.due) : dateLabel(item.due)} · ${item.kind === "assignment" ? "Assignment" : "Course event"}`, ...(item.url ? { url: item.url } : {}) })), actions: [{ type: "chatgpt", request: clean }], sourceUpdatedAt: coursework.updatedAt };
   }
 
   if (/\b(?:calendar|agenda|event|meeting|schedule|tomorrow)\b/.test(q)) {
     const day = /\btomorrow\b/.test(q) ? addDays(today, 1) : today;
     const next = /\bnext\b/.test(q);
-    const events = state.events.filter(e => next ? new Date(e.end) >= now : dayKey(new Date(e.start)) === day).sort((a, b) => a.start.localeCompare(b.start)).slice(0, next ? 1 : 8);
+    const events = state.events.filter(e => next ? new Date(e.end) >= now : eventOnDay(e, day)).sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()).slice(0, next ? 1 : 8);
     if (!events.length) return handoff(`Your saved calendar snapshot has no ${next ? "upcoming events" : day === today ? "events for today" : "events for tomorrow"}. You can check the live primary calendar in ChatGPT.`);
     return { ...base, reply: next ? `Your next saved event is “${events[0].title}”, ${dateLabel(events[0].start)}.` : `Here’s your saved agenda for ${day === today ? "today" : "tomorrow"}, in Pacific time.`, sources: events.map(e => ({ kind: "event", title: e.title, detail: `${dateLabel(e.start)}${e.location ? ` · ${e.location}` : ""}`, ...(e.url ? { url: safeUrl(e.url) } : {}) })), actions: [{ type: "chatgpt", request: clean }], sourceUpdatedAt: state.sources.calendar?.updatedAt };
   }
 
   if (/\b(?:emails?|inbox|messages?)\b/.test(q)) {
-    const emails = [...state.emails].sort((a, b) => Number(b.priority === "high") - Number(a.priority === "high")).slice(0, 5);
-    if (!emails.length) return handoff("There are no email summaries saved yet. Use connected ChatGPT for a fresh inbox lookup.");
-    return { ...base, reply: "These are the saved email summaries that may need your attention. Open a source to read the original, or use ChatGPT for a fresh lookup.", sources: emails.map(e => ({ kind: "email", title: e.subject, detail: `${e.sender} · ${e.summary}`, url: safeUrl(e.url) })), actions: [{ type: "chatgpt", request: clean }], sourceUpdatedAt: state.sources.gmail?.updatedAt };
+    const box = mailboxes.find(box => q.includes(box.account) || (box.id === "main" ? /\bmain\b/.test(q) : box.id === "berk" ? /\bberk(?:eley)?\b/.test(q) : /\bcal[ -]?hacks\b/.test(q)));
+    const emails = state.emails.filter(mail => !box || mailAccount(mail, state.sources.gmail) === box.account).sort((a, b) => Number(b.priority === "high") - Number(a.priority === "high")).slice(0, 5);
+    if (!emails.length) return handoff(box ? `No summaries are saved for ${box.label} (${box.account}) yet. Refresh that inbox through ChatGPT.` : "There are no email summaries saved yet. Use connected ChatGPT for a fresh inbox lookup.");
+    return { ...base, reply: `These are saved email summaries${box ? ` from ${box.label} (${box.account})` : " across your inboxes"} that may need your attention. Open a source to read the original, or use ChatGPT for a fresh lookup.`, sources: emails.map(e => ({ kind: "email", title: e.subject, detail: `${mailAccount(e, state.sources.gmail) || "Saved inbox"} · ${e.sender} · ${e.summary}`, url: safeUrl(e.url) })), actions: [{ type: "chatgpt", request: clean }], sourceUpdatedAt: box ? mailboxSource(state.sources, box.account).updatedAt : Object.entries(state.sources).filter(([key]) => key === "gmail" || key.startsWith("gmail:")).map(([, source]) => source.updatedAt).filter((at): at is string => !!at).sort().at(-1) };
   }
 
   if (/\b(?:note|notes)\b/.test(q) && !/\b(?:save|add|write|change)\b/.test(q)) {
-    return { ...base, reply: state.note ? "Here’s your saved workspace note." : "Your workspace note is empty. Add one in Quick notes, or ask connected ChatGPT to save one.", sources: state.note ? [{ kind: "note", title: "Quick note", detail: state.note.slice(0, 3000) }] : [], actions: [] };
+    return { ...base, reply: state.note ? "Here’s your saved workspace note." : "Your workspace note is empty. You can add a note in Connections → Workspace data.", sources: state.note ? [{ kind: "note", title: "Quick note", detail: state.note.slice(0, 3000) }] : [], actions: [] };
   }
 
   if (/\b(?:priorit(?:y|ies)|tasks?|attention|briefing|focus|my day|plan today|need to do)\b/.test(q) || /^(?:hi|hello|hey)[.!]?$/i.test(q)) {

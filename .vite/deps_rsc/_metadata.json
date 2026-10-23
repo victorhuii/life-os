@@ -1,0 +1,66 @@
+{
+  "hash": "ec021374",
+  "configHash": "537fa952",
+  "lockfileHash": "0f59bace",
+  "browserHash": "97508b3c",
+  "optimized": {
+    "react-dom": {
+      "src": "../../node_modules/react-dom/react-dom.react-server.js",
+      "file": "react-dom.js",
+      "fileHash": "916e2a10",
+      "needsInterop": true
+    },
+    "react-server-dom-webpack/client.edge": {
+      "src": "../../node_modules/react-server-dom-webpack/client.edge.js",
+      "file": "react-server-dom-webpack_client__edge.js",
+      "fileHash": "cc05bd76",
+      "needsInterop": true
+    },
+    "react-server-dom-webpack/server.edge": {
+      "src": "../../node_modules/react-server-dom-webpack/server.edge.js",
+      "file": "react-server-dom-webpack_server__edge.js",
+      "fileHash": "ad323060",
+      "needsInterop": true
+    },
+    "react-server-dom-webpack/static.edge": {
+      "src": "../../node_modules/react-server-dom-webpack/static.edge.js",
+      "file": "react-server-dom-webpack_static__edge.js",
+      "fileHash": "b5a5b16a",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/react.react-server.js",
+      "file": "react.js",
+      "fileHash": "f466efd6",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.react-server.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "8c920073",
+      "needsInterop": true
+    },
+    "react/jsx-runtime": {
+      "src": "../../node_modules/react/jsx-runtime.react-server.js",
+      "file": "react_jsx-runtime.js",
+      "fileHash": "34aae30c",
+      "needsInterop": true
+    },
+    "zod": {
+      "src": "../../node_modules/zod/index.js",
+      "file": "zod.js",
+      "fileHash": "0895d851",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-nbk3hphP": {
+      "file": "chunk-nbk3hphP.js",
+      "isDynamicEntry": false
+    },
+    "react-server-dom-webpack-server.edge.development-BaHf22Tb": {
+      "file": "react-server-dom-webpack-server.edge.development-BaHf22Tb.js",
+      "isDynamicEntry": false
+    }
+  }
+}

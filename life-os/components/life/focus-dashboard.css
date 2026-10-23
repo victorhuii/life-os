@@ -1,0 +1,221 @@
+.l-focus-app{background:#f7f8f5;min-height:100dvh;color:#333e35}
+.l-focus-app [hidden]{display:none!important}
+.l-dashboard-top{max-width:1470px;margin:auto;height:76px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e4e8e0}
+.l-dashboard-brand{display:flex;align-items:center;gap:10px;padding:0!important;font-size:14px!important;letter-spacing:-.3px;color:#455449!important;font-weight:550}
+.l-dashboard-brand>span{display:grid;place-items:center;width:29px;height:30px;border:1px solid #d6ddd2;border-radius:8px;background:#edf1e9;font:italic 21px Georgia,serif;color:#5c7261;padding-bottom:3px}
+.l-dashboard-top-actions{display:flex;align-items:center;gap:13px}
+.l-dashboard-private{font-size:11px;color:#667265;margin-right:8px}
+.l-dashboard-avatar{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#e6ebe1;color:#60745d;font-size:11px;margin-left:5px}
+.l-dashboard-main{max-width:1470px;margin:auto;padding:29px 40px 17px}
+.l-dashboard-heading{display:flex;align-items:center;justify-content:space-between;gap:25px;margin-bottom:19px}
+.l-dashboard-heading>div>p{font-size:11px;color:#667263;margin-bottom:7px}
+.l-dashboard-heading h1{font:400 29px/1.25 Georgia,serif;letter-spacing:-.8px;color:#3d4d40}
+.l-all-widgets{display:flex;align-items:center;gap:7px;border:1px solid #dfe5d9!important;border-radius:6px;padding:8px 10px!important;color:#63745c!important;font-size:11px!important;background:#fafcf7!important;white-space:nowrap}
+.l-all-widgets:hover{border-color:#b3c4a9!important;background:#fff!important}
+.l-all-widgets-active{color:#506a48!important;background:#edf3e7!important}
+.l-all-widgets kbd{font-size:8px;color:#65745a;padding-left:5px;border-left:1px solid #d5e0cc;margin-left:3px}
+.l-daily-summary{display:flex;width:100%;align-items:center;gap:18px;padding:13px 17px!important;border:1px solid #e2e8db!important;border-radius:8px;background:#edf2e8!important;text-align:left;margin-bottom:21px}
+.l-daily-summary>span{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:500;color:#5e7552;flex-shrink:0}
+.l-daily-summary>p{min-width:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#64745b;font-size:12px;line-height:1.7}
+.l-daily-summary>svg{color:#65745a}
+.l-daily-summary:hover{border-color:#c3d2b7!important}
+.l-dashboard-focus-label{display:flex;justify-content:space-between;gap:15px;margin-bottom:11px;color:#63745a;font-size:11px;}
+.l-dashboard-focus-label small{color:#66735e;font-size:10px;}
+.l-focus-board{display:grid;gap:19px;grid-template-columns:minmax(0,1.05fr) minmax(275px,.9fr) minmax(0,1.05fr);grid-template-areas:"calendar assistant inbox" "weather assistant coursework";grid-template-rows:380px 248px;isolation:isolate;scroll-margin-top:20px}
+.l-dashboard-widget{min-width:0;min-height:0;position:relative;border-radius:12px;z-index:1}
+.l-widget-calendar{grid-area:calendar}.l-widget-assistant{grid-area:assistant}.l-widget-inbox{grid-area:inbox}.l-widget-weather{grid-area:weather}.l-widget-coursework{grid-area:coursework}
+.l-widget-content{height:100%;min-height:0}
+.l-widget-content>.l-panel{height:100%;min-height:0;border-radius:12px;background:#fcfdfa;border-color:#e0e6da;box-shadow:0 3px 12px #31482502}
+.l-widget-content>.l-panel:hover{border-color:#ccd9c4}
+.l-focus-board:not([data-focus="today"]){grid-template-columns:minmax(0,1fr) 265px;grid-template-rows:repeat(4,minmax(0,1fr));height:clamp(640px,calc(100dvh - 255px),800px)}
+.l-focus-board[data-focus="calendar"]{grid-template-areas:"calendar assistant" "calendar inbox" "calendar coursework" "calendar weather"}
+.l-focus-board[data-focus="inbox"]{grid-template-areas:"inbox assistant" "inbox calendar" "inbox coursework" "inbox weather"}
+.l-focus-board[data-focus="coursework"]{grid-template-areas:"coursework assistant" "coursework calendar" "coursework inbox" "coursework weather"}
+.l-focus-board[data-focus="weather"]{grid-template-areas:"weather assistant" "weather calendar" "weather inbox" "weather coursework"}
+.l-focus-board[data-focus="assistant"]{grid-template-areas:"assistant calendar" "assistant inbox" "assistant coursework" "assistant weather"}
+.l-widget-focused{z-index:3}
+.l-widget-focused>.l-widget-content>.l-panel{border-color:#c5d3bb;background:#fff;box-shadow:0 7px 26px #40552e06}
+.l-widget-summary{width:100%;height:100%;display:flex;align-items:center;gap:13px;text-align:left;padding:20px 17px!important;border:1px solid #e0e7da!important;border-radius:11px;background:#f0f3ec!important;color:#62745a!important;transition:background .18s,border-color .18s}
+.l-widget-summary:hover{background:#eaf0e3!important;border-color:#bbcdb0!important}
+.l-summary-icon{width:32px;height:35px;display:grid;place-items:center;flex-shrink:0;color:#617557}
+.l-summary-assistant{width:65px;height:65px;margin-left:-3px;margin-right:0}
+.l-summary-copy{min-width:0;flex:1}
+.l-summary-copy>small{font-size:10px;color:#617458;display:block;margin-bottom:4px}
+.l-summary-copy>strong{font-size:13px;font-weight:500;color:#526a47;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.l-summary-copy>span{font-size:10px;color:#627457;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.65;margin-top:4px;overflow-wrap:anywhere}
+.l-widget-summary>svg{color:#637458;align-self:flex-start;margin-top:1px}
+.l-focus-app .l-panel-header{min-height:51px;padding:11px 17px 9px}
+.l-focus-app .l-panel-header h2 button{display:flex;align-items:center;gap:8px;padding:0!important;font-size:13px!important;font-weight:500;color:#4f6545!important;letter-spacing:-.1px;text-align:left}
+.l-focus-app .l-panel-header h2 button>svg{opacity:.25;transition:opacity .15s}
+.l-focus-app .l-panel-header h2 button:hover>svg,.l-widget-content:hover .l-panel-header h2 button>svg{opacity:.8}
+.l-focus-app .l-panel-header .l-section-title>svg{color:#5f7552;width:15px;height:15px}
+.l-focus-app .l-panel-footer{padding:10px 17px;min-height:36px;font-size:10px;}
+.l-focus-app .l-panel-footer .l-text-button{font-size:10px!important;}
+.l-focus-app .l-calendar-toolbar{padding:1px 17px 10px;font-size:10px}
+.l-focus-app .l-calendar-toolbar>span{font-size:11px;}
+.l-focus-app .l-week{padding:0 17px 12px;gap:4px}
+.l-focus-app .l-week button{padding:6px 1px 5px!important;gap:4px}
+.l-focus-app .l-week button>span{font-size:10px;}
+.l-focus-app .l-week button strong{font-size:16px}
+.l-focus-app .l-agenda-heading{padding:12px 17px 0;font-size:9px}
+.l-focus-app .l-agenda{min-height:70px;max-height:none;overflow:auto}
+.l-focus-app .l-calendar-empty{min-height:111px;height:100%;padding:13px 16px;gap:5px}
+.l-focus-app .l-calendar-empty h3{font-size:11px}
+.l-focus-app .l-calendar-empty p{font-size:10px}
+.l-focus-app .l-calendar-empty>svg{width:21px;height:21px}
+.l-focus-app .l-tabs{padding:0 17px;gap:17px}
+.l-focus-app .l-tabs button{font-size:9px!important;padding:6px 0 10px!important}
+.l-focus-app .l-mail-list{min-height:0;overflow:auto;flex:1}
+.l-focus-app .l-mail-row{padding:17px!important;gap:9px}
+.l-focus-app .l-mail-copy>strong{font-size:12px;line-height:1.65}
+.l-focus-app .l-mail-summary{font-size:11px;}
+.l-focus-app .l-mail-sender{font-size:11px;}
+.l-focus-app .l-mail-sender small{font-size:9px;}
+.l-focus-app .l-avatar{width:27px;height:28px;border-radius:7px;font-size:11px}
+.l-focus-app .l-provider-label{font-size:8px;padding-left:7px}
+.l-focus-app .l-connect-course{padding:2px 16px 14px;min-height:0}
+.l-focus-app .l-connect-course-icon{width:31px;height:31px;margin-bottom:9px;border-radius:8px}
+.l-focus-app .l-connect-course-icon svg{width:18px;height:18px}
+.l-focus-app .l-connect-course h3{font-size:12px}
+.l-focus-app .l-connect-course>p{font-size:10px;line-height:1.7;margin-top:6px}
+.l-focus-app .l-connect-course .l-button{font-size:9px!important;margin-top:12px;padding:7px 11px!important}
+.l-focus-app .l-connection-footnote{font-size:8px;margin-top:8px}
+.l-focus-app .l-course-list{min-height:0;overflow:auto}
+.l-focus-app .l-course-row{padding:12px 17px;gap:9px}
+.l-focus-app .l-course-row a{font-size:11px}
+.l-focus-app .l-course-row p{font-size:9px}
+.l-focus-app .l-course-icon{width:26px;height:29px}
+.l-focus-app .l-course-row .l-due{font-size:9px}
+.l-widget-focused .l-panel-header{padding:17px 25px 13px;min-height:64px}
+.l-widget-focused .l-panel-header h2 button{font-size:15px!important}
+.l-widget-focused .l-panel-header .l-section-title>svg{width:18px;height:18px}
+.l-widget-focused .l-panel-footer{padding:13px 25px;min-height:46px;font-size:10px}
+.l-widget-focused .l-calendar-toolbar{padding:2px 25px 17px}
+.l-widget-focused .l-calendar-toolbar>span{font-size:12px}
+.l-widget-focused .l-week{padding:0 25px 20px;gap:8px}
+.l-widget-focused .l-week button{padding:10px 2px!important;gap:7px}
+.l-widget-focused .l-week button>span{font-size:11px}
+.l-widget-focused .l-week button strong{font-size:23px;font-weight:400}
+.l-widget-focused .l-agenda-heading{padding:19px 25px 6px;font-size:11px}
+.l-widget-focused .l-calendar-empty{min-height:230px}
+.l-widget-focused .l-calendar-empty h3{font-size:14px;margin-top:7px}
+.l-widget-focused .l-calendar-empty p{font-size:12px}
+.l-widget-focused .l-calendar-empty>svg{width:30px;height:30px}
+.l-widget-focused .l-event{padding:19px 25px}
+.l-widget-focused .l-event-copy h3{font-size:14px}
+.l-widget-focused .l-event-copy p{font-size:12px}
+.l-widget-focused .l-event-time{width:75px;font-size:12px}
+.l-widget-focused .l-tabs{padding:0 25px;gap:25px}
+.l-widget-focused .l-tabs button{font-size:12px!important;padding:10px 0 16px!important}
+.l-widget-focused .l-mail-row{padding:22px 25px!important;gap:14px}
+.l-widget-focused .l-mail-sender{font-size:12px}
+.l-widget-focused .l-mail-sender small{font-size:10px}
+.l-widget-focused .l-mail-copy>strong{font-size:14px;margin-top:6px}
+.l-widget-focused .l-mail-summary{font-size:12px;margin-top:5px;-webkit-line-clamp:2}
+.l-widget-focused .l-avatar{width:36px;height:37px;font-size:14px;border-radius:10px}
+.l-widget-focused .l-connect-course{padding:35px;min-height:0}
+.l-widget-focused .l-connect-course-icon{width:50px;height:50px;margin-bottom:18px}
+.l-widget-focused .l-connect-course-icon svg{width:26px;height:26px}
+.l-widget-focused .l-connect-course h3{font-size:20px;font-weight:400}
+.l-widget-focused .l-connect-course p{font-size:13px;line-height:1.8;margin-top:12px}
+.l-widget-focused .l-connect-course .l-button{font-size:12px!important;padding:11px 16px!important;margin-top:23px}
+.l-widget-focused .l-connection-footnote{font-size:11px;margin-top:13px}
+.l-widget-focused .l-course-row{padding:20px 25px;gap:14px}
+.l-widget-focused .l-course-row a{font-size:14px}
+.l-widget-focused .l-course-row p{font-size:11px}
+.l-widget-focused .l-course-icon{width:36px;height:41px}
+.l-widget-focused .l-course-row .l-due{font-size:12px}
+.l-weather-place{font-size:10px;color:#617557}
+.l-weather-glance{padding:5px 17px 13px;flex:1;display:flex;flex-direction:column;justify-content:center}
+.l-weather-glance-main{display:flex;align-items:center;gap:13px;margin:0 0 16px}
+.l-weather-glance-main>span{color:#5c755d}
+.l-weather-glance-main>strong{color:#52674e;font-size:39px;font-weight:300;line-height:1;letter-spacing:-2px}
+.l-weather-glance-main>div{min-width:0}
+.l-weather-glance-main p{font-size:12px;color:#5f7555}
+.l-weather-glance-main small{font-size:10px;color:#617457;display:block;margin-top:4px}
+.l-weather-three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;border-top:1px solid #e9eee3;padding-top:12px}
+.l-weather-three>div{display:flex;align-items:center;justify-content:center;gap:7px;min-width:0}
+.l-weather-three span{font-size:9px;color:#617556}
+.l-weather-three svg{color:#637451;width:16px;height:16px}
+.l-weather-three strong{font-size:11px;font-weight:400;color:#5c764d;white-space:nowrap}
+.l-weather-three small{font-size:9px;color:#617554;margin-left:4px}
+.l-weather-glance-error{font-size:9px;color:#836c46;margin-top:10px}
+.l-weather-expanded{padding:3px 30px 25px;flex:1;min-height:0;overflow:auto}
+.l-weather-expanded>.l-weather-modal{max-width:650px;margin:0 auto}
+.l-weather-expanded .l-weather-current{padding:15px 0;margin-top:20px;margin-bottom:35px}
+.l-weather-expanded .l-weather-current>strong{font-size:70px}
+.l-weather-expanded .l-weather-current>svg{width:65px;height:65px}
+.l-weather-expanded .l-weather-hourly{padding:23px 0}
+.l-weather-expanded .l-weather-days>div{padding:18px 0}
+.l-personal-core{background:#f0f3ed!important;border-color:#dce4d5!important}
+.l-core-overview{padding:23px 21px 17px;display:flex;flex:1;min-height:0;flex-direction:column;align-items:center;justify-content:center}
+.l-core-eyebrow{display:flex;align-items:center;gap:7px;color:#61745d;font-size:10px;letter-spacing:.3px}
+.l-core-eyebrow>span{display:inline-block;width:4px;height:4px;border-radius:50%;background:#9db99d}
+.l-core-eyebrow .l-core-busy-dot{background:#bdab77}
+.l-core-launch{padding:0!important;width:210px;height:210px;border-radius:50%;margin:15px 0 12px;flex-shrink:0;position:relative;background:transparent!important;border:0;transition:transform .22s}
+.l-core-launch:hover{transform:translateY(-3px)}
+.l-core-launch:active{transform:scale(.98)}
+.l-orb-visual{display:block;width:100%;height:100%;border-radius:50%;overflow:hidden;background:#15282d;border:1px solid #314b4e;box-shadow:0 10px 24px #173b3120,inset 0 0 30px #07232c}
+.l-core-canvas{display:block;width:100%;height:100%;pointer-events:none}
+.l-core-overview>h2{font:400 23px/1.25 Georgia,serif;letter-spacing:-.5px;color:#4c6551;text-align:center}
+.l-core-overview>p{font-size:12px;color:#607459;margin-top:6px;text-align:center}
+.l-core-appearance{display:flex;align-items:center;justify-content:center;gap:2px;margin:15px 0 18px;border:1px solid #d9e2d2;background:#f7faf3;padding:3px;border-radius:20px}
+.l-core-appearance>button{font-size:10px!important;padding:4px 10px!important;border-radius:14px;color:#637457!important;line-height:1.4;transition:background .15s,color .15s}
+.l-core-appearance>button[aria-pressed=true]:not(.l-core-motion){background:#e3ecda;color:#5b7746!important}
+.l-core-appearance>span{height:11px;width:1px;background:#dbe5d3;margin:0 3px}
+.l-core-appearance .l-core-motion{padding:4px 6px!important;display:grid;place-items:center;width:25px}
+.l-core-suggestions{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;margin-top:0}
+.l-core-suggestions button{display:flex;justify-content:space-between;align-items:center;gap:5px;text-align:left;border:1px solid #dce6d4!important;border-radius:6px;background:#f8fbf4!important;padding:10px 9px!important;color:#5f764f!important;font-size:10px!important;line-height:1.5}
+.l-core-suggestions button:hover{background:#fff!important;border-color:#afc69b!important}
+.l-core-suggestions svg{color:#627551}
+.l-core-overview .l-assistant-input{width:100%;margin-top:12px;min-height:58px;flex-shrink:0}
+.l-core-overview .l-assistant-input textarea{font-size:11px!important;padding:10px 43px 10px 11px}
+.l-core-scope{font-size:9px;color:#607553;margin-top:10px;line-height:1.5}
+.l-core-inline-host{flex:1;min-height:0;height:100%}
+.l-core-chat.l-core-inline{position:static;inset:auto;display:flex;flex-direction:column;width:100%;height:100%;min-height:0;max-width:none;max-height:none;margin:0;border:0;border-radius:0;box-shadow:none;background:#fff;animation:none;overflow:hidden}
+.l-core-inline .l-chat-header{padding:18px 25px;min-height:84px}
+.l-core-inline .l-chat-header h2{font-size:16px;font-weight:450;color:#4e6950}
+.l-core-inline .l-chat-header p{font-size:10px;color:#5b7654;margin-top:4px}
+.l-core-inline .l-chat-avatar{width:44px;height:44px;border-radius:50%;border:0;background:none;flex-shrink:0}
+.l-core-inline .l-chat-avatar .l-orb-visual{box-shadow:none}
+.l-core-inline .l-chat-modes{max-width:450px;width:calc(100% - 50px);margin:18px auto 0}
+.l-core-inline .l-chat-mode-note{max-width:630px;margin:11px 27px 15px;align-self:center}
+.l-core-inline .l-chat-messages{padding:4px max(25px,calc((100% - 680px)/2)) 20px;min-height:0}
+.l-core-inline .l-chat-welcome{padding-top:25px}
+.l-core-inline .l-chat-welcome h3{font-size:30px;color:#5b774c}
+.l-core-inline .l-chat-welcome-mark{display:none}
+.l-core-inline .l-chat-starters{max-width:470px;margin:27px auto 0}
+.l-core-inline .l-chat-starters button{font-size:11px}
+.l-core-inline .l-chat-composer{padding:16px max(25px,calc((100% - 680px)/2)) 18px}
+.l-core-inline .l-chat-message{margin-bottom:27px}
+.l-core-inline .l-chat-text{font-size:13px}
+.l-core-inline .l-chat-user{margin-left:55px}
+.l-core-focused>.l-panel-footer{background:#f8fbf3}
+.l-buddy-visual{display:block;width:100%;height:100%;position:relative}
+.l-buddy-visual>svg{display:block;width:100%;height:100%;overflow:visible}
+.l-buddy-body{animation:l-buddy-float 5s ease-in-out infinite;transform-origin:120px 120px}
+.l-buddy-shadow{animation:l-buddy-shadow 5s ease-in-out infinite;transform-origin:120px 205px}
+.l-buddy-eyes{animation:l-buddy-blink 6.5s linear infinite;transform-origin:120px 112px}
+.l-buddy-light{animation:l-buddy-light 4s ease-in-out infinite}
+.l-buddy-visual[data-busy=true] .l-buddy-body{animation-duration:2.3s}
+.l-buddy-visual[data-animate=off] *{animation-play-state:paused!important}
+.l-appearance-buddy:hover .l-buddy-arm-right{transform:rotate(-8deg);transform-origin:173px 132px;transition:transform .3s}
+.l-dashboard-footer{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:20px 0 1px;font-size:10px;color:#627457}
+.l-dashboard-footer>span{display:flex;align-items:center;gap:7px}
+.l-dashboard-footer button{color:#5e7651!important;font-size:10px!important;padding:0!important;margin-left:8px}
+.l-focus-app .l-toast{left:50%}
+.l-inline-mail-detail{padding:23px 25px}
+.l-inline-mail-detail>.l-text-button{margin-bottom:24px}
+.l-inline-mail-detail .l-mail-detail h3{font-size:27px;color:#4a653c;max-width:700px;line-height:1.4}
+.l-inline-mail-detail .l-mail-detail>p{font-size:14px;line-height:1.9;color:#637458;max-width:700px}
+.l-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@keyframes l-buddy-float{0%,100%{transform:translateY(2px) rotate(-1deg)}50%{transform:translateY(-6px) rotate(1deg)}}
+@keyframes l-buddy-shadow{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.85);opacity:.6}}
+@keyframes l-buddy-blink{0%,42%,45%,100%{transform:scaleY(1)}43.5%{transform:scaleY(.12)}}
+@keyframes l-buddy-light{0%,100%{opacity:.7}50%{opacity:1}}
+@media(min-width:1600px){.l-focus-board{grid-template-rows:400px 263px;gap:23px}.l-core-launch{width:226px;height:226px}.l-core-overview{padding:28px}.l-core-suggestions button{font-size:10px!important}.l-focus-app .l-mail-row{padding:20px!important}.l-focus-app .l-mail-copy>strong{font-size:12px}.l-weather-glance-main>strong{font-size:44px}.l-weather-glance{padding-left:21px;padding-right:21px}.l-weather-three span{font-size:10px}}
+@media(max-width:1230px){.l-dashboard-top{padding:0 27px;height:66px}.l-dashboard-main{padding:27px 27px 16px}.l-focus-board{grid-template-columns:minmax(0,1fr) minmax(260px,.95fr) minmax(0,1fr);gap:15px}.l-core-launch{width:195px;height:195px}.l-core-overview{padding-left:17px;padding-right:17px}.l-core-overview>h2{font-size:21px}.l-core-suggestions{grid-template-columns:1fr}.l-core-suggestions button{padding:7px 9px!important}.l-core-appearance{margin-bottom:13px}.l-core-scope{font-size:7px}.l-focus-app .l-panel-header{padding-left:14px;padding-right:14px}.l-focus-app .l-panel-footer{padding-left:14px;padding-right:14px;font-size:8px}.l-focus-app .l-mail-row{padding-left:14px!important;padding-right:14px!important;gap:7px}.l-focus-app .l-avatar{width:23px;height:25px;font-size:10px}.l-focus-app .l-mail-sender{font-size:9px}.l-focus-app .l-mail-sender small{font-size:7px}.l-focus-app .l-mail-copy>strong{font-size:10px}.l-focus-app .l-mail-summary{font-size:9px}.l-weather-glance-main{gap:9px}.l-weather-glance-main>strong{font-size:34px}.l-weather-glance-main>span>svg{width:30px;height:30px}.l-weather-glance-main p{font-size:10px}.l-weather-three>div{gap:5px;flex-wrap:wrap}.l-weather-three{gap:8px}.l-weather-three span{width:100%;text-align:center}.l-focus-board:not([data-focus=today]){grid-template-columns:minmax(0,1fr) 240px}.l-widget-summary{padding:17px 14px!important;gap:8px}.l-summary-copy>strong{font-size:11px}.l-summary-copy>span{font-size:8px}.l-summary-assistant{width:57px;height:57px}.l-widget-focused .l-panel-header{padding:17px 25px 13px}.l-widget-focused .l-panel-footer{padding-left:25px;padding-right:25px}.l-widget-focused .l-mail-row{padding:22px 25px!important;gap:14px}.l-widget-focused .l-mail-copy>strong{font-size:14px}.l-widget-focused .l-mail-summary{font-size:12px}.l-widget-focused .l-mail-sender{font-size:12px}.l-widget-focused .l-mail-sender small{font-size:10px}.l-widget-focused .l-avatar{width:36px;height:37px;font-size:14px}}
+@media(max-width:1000px){.l-focus-board{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);grid-template-areas:"assistant calendar" "assistant inbox" "weather coursework";grid-template-rows:365px 295px 248px;gap:18px}.l-core-launch{width:210px;height:210px;margin-top:20px;margin-bottom:17px}.l-core-overview{justify-content:center;padding:28px}.l-core-overview>h2{font-size:25px}.l-core-suggestions{grid-template-columns:1fr;gap:8px;margin-top:10px}.l-core-suggestions button{font-size:11px!important;padding:11px 12px!important}.l-core-appearance{margin-top:20px;margin-bottom:21px}.l-core-scope{font-size:8px}.l-focus-app .l-mail-row{padding:13px 17px!important}.l-focus-app .l-mail-list{min-height:0}.l-focus-app .l-mail-copy>strong{font-size:11px}.l-focus-app .l-mail-summary{font-size:10px}.l-focus-app .l-mail-sender{font-size:10px}.l-weather-three>div{flex-wrap:nowrap}.l-weather-three span{width:auto}.l-focus-app .l-connect-course{padding:5px 18px 14px}.l-focus-app .l-connect-course>p{font-size:11px}.l-focus-board:not([data-focus=today]){grid-template-columns:minmax(0,1fr) 220px}.l-widget-focused .l-mail-row{padding:20px 23px!important}.l-widget-focused .l-mail-copy>strong{font-size:13px}.l-widget-focused .l-mail-summary{font-size:11px}.l-summary-assistant{width:47px;height:47px}.l-summary-copy>strong{font-size:10px}.l-widget-summary{gap:8px;padding:16px 12px!important}.l-summary-icon{width:25px}.l-summary-assistant{width:47px}.l-widget-summary>svg{width:10px}.l-dashboard-heading h1{font-size:27px}.l-dashboard-footer{font-size:8px}.l-dashboard-footer button{font-size:8px!important}}
+@media(max-width:720px){.l-dashboard-top{padding:0 19px;height:61px}.l-dashboard-main{padding:24px 17px 15px}.l-dashboard-top-actions{gap:10px}.l-dashboard-private{display:none}.l-dashboard-heading{gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:18px}.l-dashboard-heading h1{font-size:27px;max-width:310px}.l-dashboard-heading>div>p{font-size:9px}.l-all-widgets{font-size:9px!important;padding:7px 9px!important}.l-all-widgets svg{width:12px;height:12px}.l-daily-summary{gap:10px;padding:12px!important}.l-daily-summary>span{font-size:9px;gap:5px}.l-daily-summary>p{font-size:10px}.l-daily-summary>svg{width:13px}.l-dashboard-focus-label{font-size:9px;margin-bottom:10px}.l-dashboard-focus-label small{font-size:8px}.l-focus-board{grid-template-columns:1fr;grid-template-areas:"assistant" "calendar" "weather" "inbox" "coursework";grid-template-rows:570px 375px 245px 350px 260px;gap:16px}.l-core-overview{padding:22px 25px}.l-core-launch{width:190px;height:190px;margin-top:12px;margin-bottom:14px}.l-core-overview>h2{font-size:24px}.l-core-appearance{margin:14px 0 17px}.l-core-suggestions{grid-template-columns:1fr 1fr;margin-top:0;gap:7px}.l-core-suggestions button{padding:9px!important;font-size:10px!important}.l-core-overview .l-assistant-input{min-height:57px;margin-top:14px}.l-focus-app .l-panel-header{padding-left:18px;padding-right:18px}.l-focus-app .l-panel-header h2 button{font-size:13px!important}.l-focus-app .l-panel-footer{padding-left:18px;padding-right:18px;font-size:9px}.l-focus-app .l-panel-footer .l-text-button{font-size:9px!important}.l-focus-app .l-mail-row{padding:17px 18px!important;gap:11px}.l-focus-app .l-mail-copy>strong{font-size:12px}.l-focus-app .l-mail-summary{font-size:11px}.l-focus-app .l-mail-sender{font-size:11px}.l-focus-app .l-mail-sender small{font-size:9px}.l-focus-app .l-avatar{width:29px;height:30px;font-size:12px}.l-focus-app .l-connect-course{padding:8px 20px 17px}.l-focus-app .l-connect-course h3{font-size:14px}.l-focus-app .l-connect-course>p{font-size:11px}.l-focus-app .l-connect-course .l-button{font-size:10px!important}.l-focus-app .l-connect-course-icon{width:35px;height:35px}.l-weather-glance{padding:7px 20px 16px}.l-weather-glance-main>strong{font-size:42px}.l-weather-glance-main p{font-size:12px}.l-weather-glance-main small{font-size:9px}.l-weather-three>div{gap:8px}.l-weather-three span{font-size:10px}.l-weather-three strong{font-size:12px}.l-weather-three small{font-size:10px}.l-weather-place{font-size:10px}.l-focus-board:not([data-focus=today]){grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:none;grid-template-rows:min(690px,calc(100dvh - 28px)) 132px 132px;height:auto;gap:12px}.l-focus-board:not([data-focus=today]) .l-dashboard-widget{grid-area:auto;grid-column:auto;grid-row:auto}.l-focus-board:not([data-focus=today]) .l-widget-focused{grid-column:1/-1;grid-row:1;min-height:480px}.l-widget-summary{gap:8px;align-items:flex-start;flex-wrap:wrap;padding:15px!important;position:relative}.l-summary-icon{width:25px;height:26px}.l-summary-assistant{width:35px;height:35px;margin-top:-3px;margin-bottom:-6px}.l-summary-copy{min-width:90%;flex-basis:100%}.l-summary-copy>small{display:none}.l-summary-copy>strong{font-size:11px}.l-summary-copy>span{font-size:9px;-webkit-line-clamp:1}.l-widget-summary>svg{position:absolute;right:13px;top:14px}.l-widget-focused .l-panel-header{padding:14px 19px;min-height:56px}.l-widget-focused .l-panel-header h2 button{font-size:14px!important}.l-widget-focused .l-panel-footer{padding:12px 19px;font-size:9px}.l-widget-focused .l-calendar-toolbar{padding-left:19px;padding-right:19px}.l-widget-focused .l-week{padding-left:17px;padding-right:17px;gap:4px}.l-widget-focused .l-week button strong{font-size:19px}.l-widget-focused .l-week button>span{font-size:9px}.l-widget-focused .l-agenda-heading{padding-left:19px;padding-right:19px;font-size:10px}.l-widget-focused .l-calendar-empty h3{font-size:13px}.l-widget-focused .l-calendar-empty p{font-size:11px}.l-widget-focused .l-tabs{padding:0 19px}.l-widget-focused .l-mail-row{padding:18px 19px!important}.l-widget-focused .l-mail-sender{font-size:11px}.l-widget-focused .l-mail-copy>strong{font-size:12px}.l-widget-focused .l-mail-summary{font-size:11px}.l-widget-focused .l-course-row{padding:17px 19px}.l-widget-focused .l-course-row a{font-size:12px}.l-widget-focused .l-course-row p{font-size:10px}.l-widget-focused .l-course-row .l-due{font-size:10px}.l-widget-focused .l-connect-course h3{font-size:20px}.l-widget-focused .l-connect-course p{font-size:12px}.l-widget-focused .l-connect-course .l-button{font-size:11px!important}.l-core-inline .l-chat-header{padding:15px 19px;min-height:76px}.l-core-inline .l-chat-header h2{font-size:15px}.l-core-inline .l-chat-header p{font-size:9px}.l-core-inline .l-chat-modes{width:calc(100% - 38px);margin-top:15px}.l-core-inline .l-chat-mode-note{font-size:10px;margin:10px 21px 13px}.l-core-inline .l-chat-messages{padding:4px 19px 17px}.l-core-inline .l-chat-text{font-size:12px}.l-core-inline .l-chat-user{margin-left:19px}.l-core-inline .l-chat-composer{padding:14px 19px 16px}.l-core-inline .l-chat-welcome{padding-top:18px}.l-core-inline .l-chat-welcome h3{font-size:26px}.l-core-inline .l-chat-starters{gap:8px;margin-top:23px}.l-core-inline .l-chat-starters button{font-size:10px;min-height:57px}.l-weather-expanded{padding:0 19px 23px}.l-weather-expanded .l-weather-current{gap:13px;margin-top:13px;margin-bottom:24px}.l-weather-expanded .l-weather-current>strong{font-size:52px}.l-weather-expanded .l-weather-current>svg{width:42px;height:42px}.l-weather-expanded .l-weather-hourly{padding:18px 0}.l-inline-mail-detail{padding:20px 19px}.l-inline-mail-detail .l-mail-detail h3{font-size:22px}.l-inline-mail-detail .l-mail-detail>p{font-size:12px}.l-dashboard-footer{align-items:flex-start;flex-wrap:wrap;gap:9px;font-size:8px;line-height:1.7}.l-dashboard-footer>span:last-child{margin-left:auto}.l-focus-app .l-toast{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.l-focus-app *,.l-focus-app *:before,.l-focus-app *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+.l-focus-app[data-motion=off] *{animation:none!important;transition:none!important}

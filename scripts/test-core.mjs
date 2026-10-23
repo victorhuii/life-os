@@ -33,6 +33,14 @@ const email = { id: "mail", sender: "Professor", subject: "Exam details", summar
 assert.equal(ask("Summarize my emails", { ...empty, emails: [email] }).sources[0].kind, "email");
 assert.equal(ask("Mark study complete", { ...empty, tasks: [task, { ...task, id: "b", title: "Study assignment" }] }).actions.length, 0);
 assert.equal(ask("Mark Study for midterm complete", { ...empty, tasks: [task] }).actions[0].type, "complete_task");
+const separateMail = { ...empty, emails: [
+  { ...email, id: "main", account: "victorhui94@gmail.com", subject: "Main message" },
+  { ...email, id: "berk", account: "huiv@berkeley.edu", subject: "Berkeley message" },
+  { ...email, id: "hacks", account: "vhui@hackberkeley.org", subject: "Cal Hacks message" },
+] };
+assert.deepEqual(ask("Summarize my emails in huiv@berkeley.edu only.", separateMail).sources.map(source => source.title), ["Berkeley message"]);
+assert.deepEqual(ask("Summarize my Cal Hacks inbox", separateMail).sources.map(source => source.title), ["Cal Hacks message"]);
+assert.deepEqual(ask("Summarize my main inbox", separateMail).sources.map(source => source.title), ["Main message"]);
 assert.match(connectedPrompt("Check my exam date", "https://example.test"), /do not add other accounts/i);
 assert.match(connectedPrompt("Check my exam date", "https://example.test"), /do not guess/i);
-console.log("PASS: calendar-vs-dashboard routing, grounded exam answers, plural lookups, Pacific dates, drafts, ambiguous targets and single-account handoff scope.");
+console.log("PASS: calendar-vs-dashboard routing, grounded exam answers, plural lookups, Pacific dates, drafts, ambiguous targets and account-specific inbox answers and handoff scope.");
